@@ -1,0 +1,35 @@
+/* ===================================================================== 
+   Practice CSS Grid Layout
+======================================================================== */
+
+/* 
+  Target each grid item. 
+  Give each selector a grid area name.
+*/
+
+
+
+.grid {
+  height: 100vh;
+  display: grid;
+  
+  /* Set only the top row to 100px */
+
+  
+  /* 
+    Declare 3 flexible column tracks
+     - The first track should take up two fractions of the available space
+     - The second and third tracks should take up one fraction of the space
+  */
+
+  
+  /* Apply a 10px gutter between rows and columns */
+
+
+  /*  
+    Place items on the grid using their grid area names
+      - Use the image 'grid-template-areas.png' as a reference
+  */
+  
+  
+}
