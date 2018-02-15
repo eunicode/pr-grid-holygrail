@@ -24,7 +24,7 @@
 
   
   /* Apply a 10px gutter between rows and columns */
-
+  grid-gap: 10px;
 
   /*  
     Place items on the grid using their grid area names
