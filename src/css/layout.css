@@ -9,18 +9,40 @@
 
 
 
-.grid {
-  height: 100vh;
+.grid { /* container div */
+  height: 100vh; /* takes up whole viewport */
+  /* width: */
   display: grid;
   
   /* Set only the top row to 100px */
+  /* grid-template-rows: 100px; */
 
+  /* 
+  Set first row to 15% of height, second row to 70%, third row to 15%
+  70/15 = 4.6 = ~4
+  first (1) + second (4) + third (1) = 6 row tracks
+  */
+  grid-template-rows: 1fr 2fr 1fr; /* I have 5 rows right now (header, 
+  main, ads, links, footer) bc I haven't moved 'ads' and 'links' to the 
+  second/middle row. What happens is that ads, links and footer will be
+  the height of their content (the text). The space divided into 
+  1fr, 2fr, 1fr is The viewport height - (ads, links, footer).
+  = 
   
   /* 
     Declare 3 flexible column tracks
      - The first track should take up two fractions of the available space
      - The second and third tracks should take up one fraction of the space
   */
+
+  /*  
+  First column should take up 20% of space
+  Second (main) column should take up 60% of space
+  Third column should take up 20% of space
+  First (1) + Second (3) + Third (1) = 5
+  /*
+
+
 
   
   /* Apply a 10px gutter between rows and columns */
