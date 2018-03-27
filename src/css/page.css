@@ -3,20 +3,21 @@
 ======================================== */
 
 * {
-  box-sizing: border-box; /* Include padding and border in the 
-                          element's total width and height */
+  box-sizing: border-box;
+  /* Include padding and border in the element's total  width and height zzzzzz what happens if ths long why is nothing happening? shouldn't it be truncated? */
 }
 
 body {
   font-size: 1rem;
   line-height: 1.5;
-	font-family: 'Varela Round', sans-serif;
+  font-family: 'Varela Round', sans-serif;
   font-weight: bold;
   text-align: center;
   margin: 0;
 }
 
-.grid > * { /* target children of .grid */
+.grid>* {
+  /* target children of .grid */
   color: #fff;
   font-weight: bold;
   text-transform: uppercase;
@@ -38,4 +39,15 @@ main {
 
 footer {
   background-color: #33cacb;
+}
+
+/* prettier-ignore */
+
+.item {
+  grid-template-areas: /* prettier-ignore */
+  "header header"
+  /* prettier-ignore */
+  "main sidebar"
+  /* prettier-ignore */
+  "footer footer";
 }
