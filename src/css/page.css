@@ -40,14 +40,3 @@ main {
 footer {
   background-color: #33cacb;
 }
-
-/* prettier-ignore */
-
-.item {
-  grid-template-areas: /* prettier-ignore */
-  "header header"
-  /* prettier-ignore */
-  "main sidebar"
-  /* prettier-ignore */
-  "footer footer";
-}

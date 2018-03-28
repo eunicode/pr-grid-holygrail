@@ -3,55 +3,102 @@
 ======================================================================== */
 
 /* 
-  Target each grid item. 
+  TH: Target each grid item. 
   Give each selector a grid area name.
 */
 
+/* STEP #1. Make the .grid div HTML element a grid container by setting the
+display property to grid. */
 
-
-.grid { /* container div */
-  height: 100vh; /* takes up whole viewport */
+.grid {
+  /* container div */
+  height: 100vh;
+  /* Takes up whole viewport. This will create a flexible layout with a
+  sticky footer */
   /* width: */
   display: grid;
-  
-  /* Set only the top row to 100px */
-  /* grid-template-rows: 100px; */
-
   /* 
-  Set first row to 15% of height, second row to 70%, third row to 15%
-  70/15 = 4.6 = ~4
-  first (1) + second (4) + third (1) = 6 row tracks
+    TH: Set only the top row to 100px 
   */
-  grid-template-rows: 1fr 2fr 1fr; /* I have 5 rows right now (header, 
-  main, ads, links, footer) bc I haven't moved 'ads' and 'links' to the 
-  second/middle row. What happens is that ads, links and footer will be
-  the height of their content (the text). The space divided into 
-  1fr, 2fr, 1fr is The viewport height - (ads, links, footer).
-  = 
-  
+  /* grid-template-rows: 100px; */
   /* 
-    Declare 3 flexible column tracks
+    STEP #2. Create row tracks
+    Set first row to 15% of height, second (main) row to 70%, third row to 15%
+    70/15 = 4.6 = ~4
+    first (1) + second (4) + third (1) = 6 row tracks
+  */
+  grid-template-rows: 1fr 4fr 1fr;
+  /* 
+    I have 5 rows right now (header, main, ads, links, footer) bc I haven't 
+    moved 'ads' and 'links' to the second/middle row. 
+    Therefore 'header' is currently 1fr, 'main' is 4fr, and 'ads' is 1fr. 
+    What happens is that 'links' and 'footer' will be the height of their 
+    content (the text). 
+    The space divided into 1fr, 4fr, 1fr (6fr) is 
+    the viewport height - (links, footer). 
+  */
+  /*
+    STEP #3. Create column tracks
+    I want to move 'ads' and 'links' to the second/main row.
+    To do so, I need to create 3 column tracks. (The second row will have 3
+    columns: the 'ads' sidebar, 'links' sidebar, and 'main' section.
+    First column should take up 20% of space
+    Second (main) column should take up 60% of space
+    Third column should take up 20% of space
+    First (1fr) + Second (3fr) + Third (1fr) = 5fr
+    Code continues after grid rule.
+  */
+  grid-template-columns: 1fr 3fr 1fr;
+  /* 
+    TH: Declare 3 flexible column tracks
      - The first track should take up two fractions of the available space
      - The second and third tracks should take up one fraction of the space
   */
-
-  /*  
-  First column should take up 20% of space
-  Second (main) column should take up 60% of space
-  Third column should take up 20% of space
-  First (1) + Second (3) + Third (1) = 5
-  /*
-
-
-
-  
-  /* Apply a 10px gutter between rows and columns */
+  /* grid-template-columns: 2fr 1fr 1fr; */
+  /* 
+    TH: Apply a 10px gutter between rows and columns 
+  */
   grid-gap: 10px;
-
   /*  
-    Place items on the grid using their grid area names
+    TH: Place items on the grid using their grid area names
       - Use the image 'grid-template-areas.png' as a reference
   */
-  
-  
+}
+
+/*
+  STEP #4. Use line based placement to control where the items go on the grid.
+  I have 9 explicit cells (3 rows x 3 columns), and my 5 grid items are laid 
+  out on the grid. 
+  I need to stretch header and footer to take up the full width of row
+  one and row three respectively, i.e. make header and footer span three
+  columns.
+  Target header and footer, and use grid-column-start and end properties.
+*/
+
+header {
+  grid-column-start: 1;
+  grid-column-end: 4;
+}
+
+footer {
+  grid-column-start: 1;
+  grid-column-end: 4;
+}
+
+/*
+  Move 'main' so that it's after 'ads'.
+*/
+
+main {
+  grid-column-start: 2;
+  grid-column-end: 3;
+}
+
+.ads {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  /* 'ads' was pushed to the next row. I want it in the second row, so I need to
+  use grid-row properties. */
+  grid-row-start: 2;
+  grid-row-end: 3;
 }
