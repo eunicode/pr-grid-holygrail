@@ -3,9 +3,30 @@
 ======================================================================== */
 
 /* 
-  TH: Target each grid item. 
-  Give each selector a grid area name.
+  Target each grid item (CSS Grid lets you specify placement of individual 
+  grid items with grid item properties). 
+  Use grid-area property to give each selector a grid-area name.
 */
+
+header {
+  grid-area: head;
+}
+
+main {
+  grid-area: main;
+}
+
+.links {
+  grid-area: links;
+}
+
+.ads {
+  grid-area: ads;
+}
+
+footer {
+  grid-area: foot;
+}
 
 .grid {
   height: 100vh;
@@ -13,23 +34,27 @@
   grid-template-rows: 1fr 4fr 1fr;
   grid-template-columns: 1fr 3fr 1fr;
   grid-gap: 10px;
+
   /*  
-    TH: Place items on the grid using their grid area names
-      - Use the image 'grid-template-areas.png' as a reference
+    Place items on the grid using their grid area names.
+    I want 3 rows, so I need 3 strings.
   */
+
+  grid-template-areas:
+    "head head head"
+    "links main ads"
+    "foot foot foot";
 }
 
-header {
+/* Line-based placement */
+
+/* header {
   grid-column: 1 / -1;
 }
 
 footer {
   grid-column: 1 / -1;
 }
-
-/*
-  Move 'main' so that it's after 'ads'.
-*/
 
 main {
   grid-column: 2 / 3;
@@ -38,4 +63,4 @@ main {
 .ads {
   grid-column: 1 / 2;
   grid-row: 2 / 3;
-}
+} */
