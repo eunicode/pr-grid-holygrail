@@ -3,10 +3,10 @@
 ======================================================================== */
 
 /* 
-  Target each grid item (CSS Grid lets you specify placement of individual 
-  grid items with grid item properties). 
-  Use grid-area property to give each selector a grid-area name.
+  Make mobile-first responsive layout
 */
+
+/* Single column layout with Grid */
 
 header {
   grid-area: head;
@@ -31,36 +31,31 @@ footer {
 .grid {
   height: 100vh;
   display: grid;
-  grid-template-rows: 1fr 4fr 1fr;
-  grid-template-columns: 1fr 3fr 1fr;
+  /* Explicit grid */
+  /* grid-template-rows: 1fr 1fr 1fr 1fr 1fr; // Hardcode five rows */
+  /* grid-template-rows: repeat(5, 1fr); // Hardcode five rows w/ repeat notation */
+  /* Implicit grid */
+  /* I get five evenly sized, flexible rows that fill the viewport
+  even without defining (either explicitly or implicitly) row tracks. 
+  height: 100vh -> Rows stretch vertically to fill viewport height. The row
+  heights are responsive. 
+  My guess is that the rows are the same size bc the default value for 
+  grid-auto-rows is 'auto', which means the size of a row is determined by
+  its content. */
+  grid-auto-rows: auto; /* Didn't define minimum size for rows bc I want the
+  smallest size to be the size of its content*/
+  /* Scrollbars appear once row heights are fixed (as opposed to responsive).
+  A row's minimum height is its content.
+  The row heights become fixed when the viewport gets small enough that there
+  isn't any extra space to divide amongst rows after the heights of the rows'
+  content is subtracted. */
+  /* What if I want the ads row to be a certain percentage of the viewport? */
+  grid-template-columns: 1fr; /* One column */
   grid-gap: 10px;
-
-  /*  
-    Place items on the grid using their grid area names.
-    I want 3 rows, so I need 3 strings.
-  */
-
   grid-template-areas:
-    "head head head"
-    "links main ads"
-    "foot foot foot";
+    "head" /* One item per row */
+    "links"
+    "main"
+    "ads"
+    "foot";
 }
-
-/* Line-based placement */
-
-/* header {
-  grid-column: 1 / -1;
-}
-
-footer {
-  grid-column: 1 / -1;
-}
-
-main {
-  grid-column: 2 / 3;
-}
-
-.ads {
-  grid-column: 1 / 2;
-  grid-row: 2 / 3;
-} */
