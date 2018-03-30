@@ -31,24 +31,7 @@ footer {
 .grid {
   height: 100vh;
   display: grid;
-  /* Explicit grid */
-  /* grid-template-rows: 1fr 1fr 1fr 1fr 1fr; // Hardcode five rows */
-  /* grid-template-rows: repeat(5, 1fr); // Hardcode five rows w/ repeat notation */
-  /* Implicit grid */
-  /* I get five evenly sized, flexible rows that fill the viewport
-  even without defining (either explicitly or implicitly) row tracks. 
-  height: 100vh -> Rows stretch vertically to fill viewport height. The row
-  heights are responsive. 
-  My guess is that the rows are the same size bc the default value for 
-  grid-auto-rows is 'auto', which means the size of a row is determined by
-  its content. */
-  grid-auto-rows: auto; /* Didn't define minimum size for rows bc I want the
-  smallest size to be the size of its content*/
-  /* Scrollbars appear once row heights are fixed (as opposed to responsive).
-  A row's minimum height is its content.
-  The row heights become fixed when the viewport gets small enough that there
-  isn't any extra space to divide amongst rows after the heights of the rows'
-  content is subtracted. */
+  grid-auto-rows: auto;
   /* What if I want the ads row to be a certain percentage of the viewport? */
   grid-template-columns: 1fr; /* One column */
   grid-gap: 10px;
@@ -58,4 +41,34 @@ footer {
     "main"
     "ads"
     "foot";
+}
+
+/* Two column layout */
+
+/* @media (min-width: 768px) {
+  /* min-width is inclusive, this targets viewports
+  greater than or equal to 768px. In other words, the minimum width this layout
+  applies to is 768px 
+  .container {
+    grid-template-columns: 1fr 1fr;
+    /* grid-template-rows: auto; 
+    grid-template-areas:
+      "head head"
+      "main main"
+      "links ads"
+      "foot foot";
+  }
+} */
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+    /* Adjust the height of the links/ads row */
+    grid-template-rows: auto auto minmax(min-content, 100px) auto;
+    grid-template-areas:
+      "head head"
+      "main main"
+      "links ads"
+      "foot foot";
+  }
 }
