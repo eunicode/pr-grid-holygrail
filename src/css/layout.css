@@ -45,22 +45,9 @@ footer {
 
 /* Two column layout */
 
-/* @media (min-width: 768px) {
-  /* min-width is inclusive, this targets viewports
-  greater than or equal to 768px. In other words, the minimum width this layout
-  applies to is 768px 
-  .container {
-    grid-template-columns: 1fr 1fr;
-    /* grid-template-rows: auto; 
-    grid-template-areas:
-      "head head"
-      "main main"
-      "links ads"
-      "foot foot";
-  }
-} */
-
 @media (min-width: 768px) {
+  /* min-width is inclusive, this targets viewports greater than or equal to 
+  768px. In other words, the minimum width this layout applies to is 768px */
   .grid {
     grid-template-columns: 1fr 1fr;
     /* Adjust the height of the links/ads row */
@@ -70,5 +57,20 @@ footer {
       "main main"
       "links ads"
       "foot foot";
+  }
+}
+
+/* Three column layout */
+
+@media (min-width: 992px) {
+  .grid {
+    grid-template-columns: 1fr 3fr 1fr;
+    /* I need to declare grid-template-rows bc otherwise the grid-template-row
+    values in the media query for 768px viewports will apply here */
+    grid-template-rows: 1fr 4fr 1fr;
+    grid-template-areas:
+      "head head head"
+      "links main ads"
+      "foot foot foot";
   }
 }
