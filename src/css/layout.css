@@ -2,75 +2,47 @@
    Practice CSS Grid Layout
 ======================================================================== */
 
-/* 
-  Make mobile-first responsive layout
-*/
+/*----------------------------------------------------------------------
+Basic single column layout for all browsers:
+------------------------------------------------------------------------ */
 
-/* Single column layout with Grid */
-
-header {
-  grid-area: head;
+body {
+  /* Restrict width so site still looks nice on wide viewports */
+  max-width: 50rem; /* max-width prevents horizontal scrollbars when width is
+  skinnier than 50rem */
+  margin: 0 auto; /* Horizontally center everything */
 }
 
-main {
-  grid-area: main;
-}
+/* Use flex to make 'main' grow to fill the viewport and the footer sticky */
 
-.links {
-  grid-area: links;
-}
-
-.ads {
-  grid-area: ads;
-}
-
-footer {
-  grid-area: foot;
-}
-
-.grid {
-  height: 100vh;
-  display: grid;
-  grid-auto-rows: auto;
-  /* What if I want the ads row to be a certain percentage of the viewport? */
-  grid-template-columns: 1fr; /* One column */
-  grid-gap: 10px;
-  grid-template-areas:
-    "head" /* One item per row */
-    "links"
-    "main"
-    "ads"
-    "foot";
-}
-
-/* Two column layout */
-
-@media (min-width: 768px) {
-  /* min-width is inclusive, this targets viewports greater than or equal to 
-  768px. In other words, the minimum width this layout applies to is 768px */
+@supports (display: flex) {
   .grid {
-    grid-template-columns: 1fr 1fr;
-    /* Adjust the height of the links/ads row */
-    grid-template-rows: auto auto minmax(min-content, 100px) auto;
-    grid-template-areas:
-      "head head"
-      "main main"
-      "links ads"
-      "foot foot";
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
   }
+
+  main {
+    flex-grow: 1;
+  }
+
+  /* Alternatively, use margin-top: auto to make footer's margin take up all the
+  extra space in the flex container. This only works on flex items. */
+  /* footer {
+    margin-top: auto;
+  } */
 }
 
-/* Three column layout */
+/*----------------------------------------------------------------------
+CSS Grid Layout for browsers with CSS Grid support:
+------------------------------------------------------------------------ */
 
-@media (min-width: 992px) {
-  .grid {
-    grid-template-columns: 1fr 3fr 1fr;
-    /* I need to declare grid-template-rows bc otherwise the grid-template-row
-    values in the media query for 768px viewports will apply here */
-    grid-template-rows: 1fr 4fr 1fr;
-    grid-template-areas:
-      "head head head"
-      "links main ads"
-      "foot foot foot";
+/* @supports (grid-area: auto) {
+  @media screen and (min-width: 50em) {
+    .site {
+      max-width: none;
+      display: grid;
+      grid-template-columns: 15em auto;
+    }
   }
-}
+} */
