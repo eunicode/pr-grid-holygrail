@@ -3,6 +3,7 @@
 // https://css-tricks.com/gulp-for-beginners/
 // https://scotch.io/tutorials/how-to-use-browsersync-for-faster-development
 // https://travismaynard.com/writing/getting-started-with-gulp
+// https://github.com/hdngr/treehouse-gulp-basics/blob/master/gulpfile.js
 
 // https://github.com/gulpjs/gulp
 // https://gulpjs.com/docs/en/getting-started/quick-start
