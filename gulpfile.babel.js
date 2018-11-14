@@ -5,9 +5,18 @@
 // https://travismaynard.com/writing/getting-started-with-gulp
 
 // https://github.com/gulpjs/gulp
-// https://github.com/gulpjs/gulp/blob/master/docs/API.md
+// https://gulpjs.com/docs/en/getting-started/quick-start
 // https://browsersync.io/docs/gulp
 
+// https://www.liquidlight.co.uk/blog/article/how-do-i-update-to-gulp-4/
+// https://goede.site/setting-up-gulp-4-for-automatic-sass-compilation-and-css-injection
+
+// https://github.com/babel/gulp-babel
+// https://babeljs.io/setup.html#installation
+// https://babeljs.io/docs/en/next/babel-preset-env
+// https://babeljs.io/docs/en/env
+
+// https://github.com/gulpjs/gulp/blob/master/docs/API.md
 // https://github.com/gulpjs/gulp/blob/master/docs/recipes/minimal-browsersync-setup-with-gulp4.md
 // https://github.com/gulpjs/gulp/blob/master/docs/recipes/server-with-livereload-and-css-injection.md
 
@@ -27,17 +36,20 @@ With each rebuild of the dist package, reload the browser
 // Include gulp - ES6 method
 import gulp from "gulp";
 
-// Include more modules
-import sass from "gulp-sass";
+// Include modules
+import babel from "gulp-babel";
 import del from "del";
+import sass from "gulp-sass";
+import concat from "gulp-concat";
+import uglify from "gulp-uglify";
 
-// Include plugin - Pre-ES6 method
-// var browserSync = require('browser-sync').create(); // Create a browser sync instance.
+// Include Browsersync plugin - Pre-ES6 method
+// var browserSync = require('browser-sync').create(); // Create a Browsersync instance.
 
-// Include plugin - ES6 method
+// Include Browsersync plugin - ES6 method
 import browserSync from "browser-sync";
 
-const server = browserSync.create(); // Create a browser sync instance
+const server = browserSync.create(); // Create a Browsersync instance
 
 // Paths object
 const paths = {
@@ -59,13 +71,20 @@ function styles() {
   return gulp
     .src(paths.styles.src)
     .pipe(sass())
-    .pipe(gulp.dest(paths.styles.dest));
+    .on("error", sass.logError)
+    .pipe(gulp.dest(paths.styles.dest))
+    .pipe(browserSync.stream());
 }
+
+exports.styles = styles;
 
 // Process scripts
 function scripts() {
   return gulp
     .src(paths.scripts.src, { sourcemaps: true })
+    .pipe(babel())
+    .pipe(uglify())
+    .pipe(concat("index.min.js"))
     .pipe(gulp.dest(paths.scripts.dest));
 }
 
@@ -113,7 +132,7 @@ function serve(done) {
 
 const watch = () => {
   gulp.watch("*.html", reload); // reload fxn defined earlier. Callback fxn can also be gulp.series(reload) or gulp.parallel(reload)
-  gulp.watch(paths.styles.src, gulp.series(styles, reload));
+  gulp.watch(paths.styles.src, gulp.series(styles));
   gulp.watch(paths.scripts.src, gulp.series(scripts, reload));
 };
 
