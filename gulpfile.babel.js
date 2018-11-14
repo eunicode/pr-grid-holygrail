@@ -23,6 +23,8 @@
 // gulp.task([name,] fn)
 // https://gulpjs.org/API.html#gulp-task-name-fn
 
+// https://github.com/gulp-sourcemaps/gulp-sourcemaps
+
 /* 
 Build the source script file in src/scripts/, e.g. compiling with babel, minifying, etc.
 Put the compiled version in dist/scripts for use in index.html
@@ -37,6 +39,7 @@ With each rebuild of the dist package, reload the browser
 import gulp from "gulp";
 
 // Include modules
+import sourcemaps from "gulp-sourcemaps";
 import babel from "gulp-babel";
 import del from "del";
 import sass from "gulp-sass";
@@ -70,8 +73,10 @@ const clean = () => del(["dist"]);
 function styles() {
   return gulp
     .src(paths.styles.src)
+    .pipe(sourcemaps.init())
     .pipe(sass())
     .on("error", sass.logError)
+    .pipe(sourcemaps.write(".")) // leave write() blank if you don't want styles.css.map files
     .pipe(gulp.dest(paths.styles.dest))
     .pipe(browserSync.stream());
 }
@@ -82,9 +87,11 @@ exports.styles = styles;
 function scripts() {
   return gulp
     .src(paths.scripts.src, { sourcemaps: true })
+    .pipe(sourcemaps.init())
     .pipe(babel())
     .pipe(uglify())
     .pipe(concat("index.min.js"))
+    .pipe(sourcemaps.write("."))
     .pipe(gulp.dest(paths.scripts.dest));
 }
 
@@ -151,3 +158,8 @@ export default dev;
 // 'browserSync' (start server)
 // 'watch'
 // 'default'
+
+// TO DO
+// Separate `styles` and `scripts` functions into smaller functions
+// Create build task
+// Concat CSS files
