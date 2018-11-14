@@ -78,7 +78,7 @@ function styles() {
     .on("error", sass.logError)
     .pipe(sourcemaps.write(".")) // leave write() blank if you don't want styles.css.map files
     .pipe(gulp.dest(paths.styles.dest))
-    .pipe(browserSync.stream());
+    .pipe(server.stream());
 }
 
 exports.styles = styles;
