@@ -26,11 +26,16 @@
 
 // https://github.com/gulp-sourcemaps/gulp-sourcemaps
 
+// Copy files
+// https://gulpjs.com/docs/en/api/src
+// https://coderwall.com/p/9uzttg/simple-gulp-copy-file-task
+// https://ilikekillnerds.com/2014/07/copying-files-from-one-folder-to-another-in-gulp-js/
+
 /* 
 Build the source script file in src/scripts/, e.g. compiling with babel, minifying, etc.
-Put the compiled version in dist/scripts for use in index.html
-Watch for changes in the source file and rebuild the dist package
-With each rebuild of the dist package, reload the browser
+Put the compiled version in build/scripts for use in index.html
+Watch for changes in the source file and rebuild the build package
+With each rebuild of the build package, reload the browser
 */
 
 // Include gulp - Pre-ES6 method
@@ -59,16 +64,25 @@ const server = browserSync.create(); // Create a Browsersync instance
 const paths = {
   styles: {
     src: "src/styles/*.scss",
-    dest: "dist/styles/"
+    dest: "build/styles/"
   },
   scripts: {
     src: "src/scripts/*.js",
-    dest: "dist/scripts/"
+    dest: "build/scripts/"
+  },
+  html: {
+    src: "public/*.html",
+    dest: "build/"
   }
 };
 
 // Wipe out the build directory, call before you build
-const clean = () => del(["dist"]);
+const clean = () => del(["build"]);
+
+// Copy index.html
+function copy() {
+  return gulp.src(paths.html.src).pipe(gulp.dest(paths.html.dest));
+}
 
 // Process styles
 function styles() {
@@ -79,7 +93,7 @@ function styles() {
     .on("error", sass.logError)
     .pipe(sourcemaps.write(".")) // leave write() blank if you don't want styles.css.map files
     .pipe(gulp.dest(paths.styles.dest))
-    .pipe(server.stream());
+    .pipe(server.stream()); // CSS injection
 }
 
 exports.styles = styles;
@@ -96,20 +110,7 @@ function scripts() {
     .pipe(gulp.dest(paths.scripts.dest));
 }
 
-// Development Tasks
-
-// Start BrowserSync server
-// To trigger this command, from the terminal run `gulp browserSync`
-// BrowserSync monitors the directory defined in baseDir, and whenever we run
-// the command, the page reloads.
-
-// gulp.task("browserSync", () => {
-//   browserSync.init({
-//     server: {
-//       baseDir: "src"
-//     }
-//   });
-// });
+exports.scripts = scripts;
 
 function reload(done) {
   server.reload(); // server = browserSync.create();
@@ -123,44 +124,31 @@ function reload(done) {
 function serve(done) {
   server.init({
     server: {
-      baseDir: "./"
+      baseDir: "./build"
     }
   });
   done();
 }
 
 // Watch for file changes and reload
-// gulp.task("watch", ["browserSync"], () => {
-//   // Reloads the browser whenever HTML, CSS, JS files change
-//   // gulp.watch('src/*.html').on('change', browserSync.reload);
-//   gulp.watch("src/*.html", browserSync.reload);
-//   gulp.watch("src/css/*.css", browserSync.reload);
-//   gulp.watch("src/js/*.js", browserSync.reload);
-// });
-
 const watch = () => {
-  gulp.watch("*.html", reload); // reload fxn defined earlier. Callback fxn can also be gulp.series(reload) or gulp.parallel(reload)
-  gulp.watch(paths.styles.src, gulp.series(styles));
+  gulp.watch(paths.html.src, gulp.series(copy, reload)); // reload fxn defined earlier. Callback fxn can also be gulp.series(reload) or gulp.parallel(reload)
+  gulp.watch(paths.styles.src, gulp.series(styles)); // Don't need reload bc of CSS injection
   gulp.watch(paths.scripts.src, gulp.series(scripts, reload));
 };
 
 // Default Task
-// gulp.task("default", ["watchFiles"]);
-const dev = gulp.series(clean, gulp.parallel(styles, scripts), serve, watch);
+const dev = gulp.series(
+  clean,
+  copy,
+  gulp.parallel(styles, scripts),
+  serve,
+  watch
+);
 
 export default dev;
 
-// `gulp` command execution order
-// 'default'
-// 'serve'
-// 'watch'
-
-// Before it was
-// 'browserSync' (start server)
-// 'watch'
-// 'default'
-
 // TO DO
-// Separate `styles` and `scripts` functions into smaller functions
+// Separate `styles` and `scripts` functions into smaller functions?
 // Create build task
 // Concat CSS files
